@@ -51,28 +51,22 @@ def __load_data_set():
     print('total validation dog images:',len(os.listdir(dog_test_path)))
 
 
-"""
-     把像素转化为向量
-"""
-def __setOfPix2Vec(vocaList,inputSet):
-    returnVec=[0]*len(vocaList)
-    for pix in  inputSet:
-        if pix in vocaList:
-            returnVec[vocaList.index(pix)]=1
-    return returnVec
-
-# 读取
-
 
 """
     加载文件并转为矩阵向量
+    the result type is dict
 """
-def __load_file(path_list):
+def __load_file(path_list, label):
     image_list = list()
+    i = 0
     for path in path_list:
-        img_obj = Image.open(path)
-        img_array = np.asarray(img_obj, dtype=np.uint8)
-        image_list.append(img_array)
+        img_obj = Image.open(path).convert('L')
+        img_obj = img_obj.resize((224, 224), Image.ANTIALIAS)
+        image = np.multiply(img_obj, 1.0 / 255.0)
+        img_array = np.asarray(image.reshape(1,1,224,224), dtype=np.float32)
+        image_tuple = (img_array, label)
+        image_list.append(image_tuple)
+        i+=1
     return image_list
 
 
@@ -80,14 +74,14 @@ def load_data():
     # load_data_set()
     cat_train = [os.path.join(cat_train_path, fname) for fname in os.listdir(cat_train_path)]
     dog_train = [os.path.join(dog_train_path, fname) for fname in os.listdir(dog_train_path)]
-    cat_image_list = __load_file(cat_train)
-    dog_image_list = __load_file(dog_train)
+    cat_image_list = __load_file(cat_train, "cat")
+    dog_image_list = __load_file(dog_train, "dog")
     return cat_image_list,dog_image_list
 
 def load_test_data():
     # load_data_set()
     cat_train = [os.path.join(cat_test_path, fname) for fname in os.listdir(cat_test_path)]
     dog_train = [os.path.join(dog_test_path, fname) for fname in os.listdir(dog_test_path)]
-    cat_image_list = __load_file(cat_train)
-    dog_image_list = __load_file(dog_train)
+    cat_image_list = __load_file(cat_train, "cat")
+    dog_image_list = __load_file(dog_train, "dog")
     return cat_image_list,dog_image_list

@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="72cd8df0-366f-4e33-8fce-bd2ec8b801fe" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/数据处理/猫狗大战/cnn.py" beforeDir="false" afterPath="$PROJECT_DIR$/数据处理/猫狗大战/cnn.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/数据处理/猫狗大战/data_handle.py" beforeDir="false" afterPath="$PROJECT_DIR$/数据处理/猫狗大战/data_handle.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -22,8 +21,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/数据处理/猫狗大战/cnn.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="238">
-              <caret line="63" selection-start-line="63" selection-end-line="63" />
+            <state relative-caret-position="1045">
+              <caret line="59" selection-start-line="59" selection-end-line="59" />
               <folding>
                 <element signature="e#74#102#0" expanded="true" />
               </folding>
@@ -34,8 +33,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://D:/python37/Lib/site-packages/paddle/batch.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="216">
-              <caret line="32" selection-start-line="32" selection-end-line="32" />
+            <state relative-caret-position="521">
+              <caret line="48" column="23" lean-forward="true" selection-start-line="48" selection-start-column="23" selection-end-line="48" selection-end-column="23" />
             </state>
           </provider>
         </entry>
@@ -66,6 +65,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -88,7 +88,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -200,16 +199,18 @@
       <workItem from="1554731138027" duration="71000" />
       <workItem from="1554774735258" duration="457000" />
       <workItem from="1556502222802" duration="747000" />
+      <workItem from="1556586110871" duration="598000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="7205000" />
+    <option name="totallyTimeSpent" value="7803000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.17426273" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.17627347" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -241,17 +242,17 @@
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/数据处理/猫狗大战/cnn.py</url>
-          <line>63</line>
+          <line>59</line>
           <option name="timeStamp" value="1" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/数据处理/猫狗大战/cnn.py</url>
-          <line>60</line>
+          <line>58</line>
           <option name="timeStamp" value="2" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/数据处理/猫狗大战/cnn.py</url>
-          <line>55</line>
+          <line>57</line>
           <option name="timeStamp" value="4" />
         </line-breakpoint>
       </breakpoints>
@@ -268,27 +269,12 @@
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/venv/Lib/site-packages/bs4/__init__.py" />
-    <entry file="file://$PROJECT_DIR$/python基础/script996ICU.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="122">
-          <caret line="18" column="3" lean-forward="true" selection-start-line="18" selection-start-column="3" selection-end-line="18" selection-end-column="3" />
-          <folding>
-            <element signature="e#72#93#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/python基础/TFIDF.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1558">
-          <caret line="82" column="40" selection-start-line="82" selection-start-column="40" selection-end-line="82" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/python基础/script996ICU.py" />
+    <entry file="file://$PROJECT_DIR$/python基础/TFIDF.py" />
     <entry file="file://$PROJECT_DIR$/数据处理/猫狗大战/cnn.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="63" selection-start-line="63" selection-end-line="63" />
+        <state relative-caret-position="1045">
+          <caret line="59" selection-start-line="59" selection-end-line="59" />
           <folding>
             <element signature="e#74#102#0" expanded="true" />
           </folding>
@@ -297,8 +283,8 @@
     </entry>
     <entry file="file://D:/python37/Lib/site-packages/paddle/batch.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="216">
-          <caret line="32" selection-start-line="32" selection-end-line="32" />
+        <state relative-caret-position="521">
+          <caret line="48" column="23" lean-forward="true" selection-start-line="48" selection-start-column="23" selection-end-line="48" selection-end-column="23" />
         </state>
       </provider>
     </entry>

@@ -34,16 +34,8 @@ def convolutional_neural_network(input):
     fc = fluid.layers.fc(input=pool, size=2, act='softmax')
     return fc
 
-def deal_with_data(image_list):
-    i = 0
-    dicts = dict()
-    for var in image_list:
-        dicts[i] = var
-        i+=1
-    return dicts
-
 # 猫狗图片
-image = fluid.layers.data(name='image', shape=[3, 500, 375], dtype='float32')
+image = fluid.layers.data(name='image', shape=[1, 224, 224], dtype='float32')
 label = fluid.layers.data(name='label', shape=[1], dtype='int64')
 
 model = convolutional_neural_network(image)
@@ -56,12 +48,14 @@ acc = fluid.layers.accuracy(input=model, label=label)
 # 获取训练和测试程序
 test_program = fluid.default_main_program().clone(for_test=True)
 
-# 定义优化方法
+# 定义优化方法 自适应矩估计优化器
 optimizer = fluid.optimizer.AdamOptimizer(learning_rate=0.001)
 opts = optimizer.minimize(avg_cost)
 # 数据处理
-train_reader = deal_with_data(cat_image_list)
-test_reader = deal_with_data(cat_image_test_list)
+
+train_reader = cat_image_list
+test_reader = cat_image_test_list
+
 # 定义一个使用CPU的执行器
 place = fluid.CPUPlace()
 exe = fluid.Executor(place)
@@ -69,24 +63,20 @@ exe = fluid.Executor(place)
 exe.run(fluid.default_startup_program())
 
 # 定义输入数据维度
-feeder = fluid.DataFeeder(place=place, feed_list=[image, label])
+feeder = fluid.DataFeeder(place=place, feed_list=[image,label])
 
 # 开始训练和测试
 for pass_id in range(10):
     # 进行训练
-    for batch_id, data in enumerate(train_reader):
+    for trian in train_reader :
         train_cost, train_acc = exe.run(program=fluid.default_main_program(),
-                                        feed=feeder.feed(data),
+                                        feed=feeder.feed(trian),
                                         fetch_list=[avg_cost, acc])
-        # 每100个batch打印一次信息
-        if batch_id % 100 == 0:
-            print('Pass:%d, Batch:%d, Cost:%0.5f, Accuracy:%0.5f' %
-                  (pass_id, batch_id, train_cost[0], train_acc[0]))
 
     # 进行测试
     test_accs = []
     test_costs = []
-    for batch_id, data in enumerate(test_reader):
+    for  data in test_reader:
         test_cost, test_acc = exe.run(program=test_program,
                                       feed=feeder.feed(data),
                                       fetch_list=[avg_cost, acc])
@@ -95,24 +85,24 @@ for pass_id in range(10):
     # 求测试结果的平均值
     test_cost = (sum(test_costs) / len(test_costs))
     test_acc = (sum(test_accs) / len(test_accs))
-    print('Test:%d, Cost:%0.5f, Accuracy:%0.5f' % (pass_id, test_cost, test_acc))
+    print('Test:%d, Cost:%0.5f, Accuracy:%0.5f' % (0, test_cost, test_acc))
 
 
-# 对图片进行预处理
-def load_image(file):
-    # 不进行灰度处理
-    im = Image.open(file)
-    im = im.resize((500, 375), Image.ANTIALIAS)
-    im = np.array(im).reshape(3, 3, 500, 375).astype(np.float32)
-    im = im / 255.0 * 2.0 - 1.0
-    return im
+# # 对图片进行预处理
+# def load_image(file):
+#     # 不进行灰度处理
+#     im = Image.open(file)
+#     im = im.resize((500, 375), Image.ANTIALIAS)
+#     im = np.array(im).reshape(3, 3, 500, 375).astype(np.float32)
+#     im = im / 255.0 * 2.0 - 1.0
+#     return im
 
-cat_test_path = "E:\\dataSet\\dog_and_cat\\test\\Cat\\"
-# 加载数据并开始预测
-img = load_image(cat_test_path + 'cat.400')
-results = exe.run(program=test_program,
-                  feed={'image': img, "label": np.array([[1]]).astype("int64")},
-                  fetch_list=[model])
-# 获取概率最大的标签
-lab = np.argsort(results)[0][0][-1]
-print('infer_3.png infer result: %d' % lab)
+# cat_test_path = "E:\\dataSet\\dog_and_cat\\test\\Cat\\"
+# # 加载数据并开始预测
+# img = load_image(cat_test_path + 'cat.400')
+# results = exe.run(program=test_program,
+#                   feed={'image': img, "label": np.array([[1]]).astype("int64")},
+#                   fetch_list=[model])
+# # 获取概率最大的标签
+# lab = np.argsort(results)[0][0][-1]
+# print('infer_3.png infer result: %d' % lab)
