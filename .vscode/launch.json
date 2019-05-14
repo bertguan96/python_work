@@ -5,6 +5,13 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "type": "java",
+            "name": "CodeLens (Launch) - hello",
+            "request": "launch",
+            "mainClass": "hello",
+            "projectName": "大数据处理与实践_553fd3aa"
+        },
+        {
             "name": "Python: 当前文件",
             "type": "python",
             "request": "launch",

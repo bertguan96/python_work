@@ -5,19 +5,6 @@
 
 import os
 
-"""
-    统计类别如下
-    001
-    002
-    003
-    004
-    005
-    006
-    007
-    008
-    009
-"""
-
 file_dir = "E:\\dataSet\\初赛赛题\\train_visit\\train\\"
 files = os.listdir(file_dir)
 # 得到所有的文件路径
@@ -25,3 +12,5 @@ fileNames = [ file_dir+fileName for fileName in files]
 a = open('filePath.txt','w',encoding='UTF8')
 for fileName in fileNames:
     a.write(fileName + "\n")
+
+

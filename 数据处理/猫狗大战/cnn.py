@@ -8,6 +8,10 @@ import data_handle as dh
 import numpy as np 
 import paddle as paddle
 from PIL import Image
+import os
+
+
+
 
 cat_image_list,dog_image_list = dh.load_data()
 cat_image_test_list,dog_image_test_list = dh.load_test_data()
