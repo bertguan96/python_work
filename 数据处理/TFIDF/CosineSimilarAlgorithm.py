@@ -101,15 +101,6 @@ def cosion(test_text,doc_term_matrix,num):
     sum = 0
     sq1 = 0
     sq2 = 0
-    # for i in range(len(doc_term_matrix)):
-    #     sum += test_text[i] * doc_term_matrix[i]
-    #     sq1 += pow(test_text[i], 2)
-    #     sq2 += pow(doc_term_matrix[i], 2)
-    # try:
-    #     result = round(float(sum) / (math.sqrt(sq1) * math.sqrt(sq2)), 2)
-    # except ZeroDivisionError:
-    #     result = 0.0
-    # print("测试文本和第%d句话的相似度是%0.2f"%(num, result))
     vector1 = np.array(test_text)
     vector2 = np.array(doc_term_matrix)
     op7=np.dot(vector1,vector2)/(np.linalg.norm(vector1)*(np.linalg.norm(vector2)))
@@ -118,6 +109,7 @@ def cosion(test_text,doc_term_matrix,num):
 if __name__ == "__main__":
     # 处理原始文本数据得到label
     word_dict, participle_arr = participle_to_label(doc_list)
+    print(word_dict)
     # 根据label计算词向量
     tf_method(word_dict,participle_arr)
     # 向量化测试文本集合
