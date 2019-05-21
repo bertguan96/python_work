@@ -43,7 +43,15 @@ class MultiModel(object):
         
         print("网络初始化成功")
 
-    def conv2d(self, x, input_filters, output_filters, kernel, strides=1, padding="SAME"):
+    """
+        卷积网络
+        @param x 卷积参数
+        @param input_filters 输入步长
+        @param ouput_filters 输出步长
+        @param kernel 核心
+        @param 步长
+    """
+    def conv2d(self, x, input_filters, output_filters, kernel, strides=1):
         shape = [kernel, kernel, input_filters, output_filters]
         # 采用高斯分布初始化器
         weight = fluid.layers.create_parameter(shape=shape,
@@ -51,8 +59,11 @@ class MultiModel(object):
                                                name='weight',
                                                dtype='float32')
     
-        return fluid.layers.conv2d(input=x,num_filters=kernel,filter_size=2,stride=[1,strides,strides,1],padding=padding,param_attr='weight')
+        return fluid.layers.conv2d(input=x,num_filters=kernel,filter_size=2,stride=[strides,strides],padding=[0,0],param_attr='weight')
 
+    """
+        卷积网络
+    """
     def residual(self, x, num_filters, strides, name, with_shortcut=False):
         conv1 = self.conv2d(x, num_filters[0], num_filters[1], kernel=1, strides=strides)
         bn1 = fluid.layers.batch_norm(input=conv1, param_attr='training')
@@ -72,8 +83,10 @@ class MultiModel(object):
 
     """
         图片网络
+        @param image 图片
+        @network Resnet-image
     """
-    def image_network(self,image,network):
+    def image_network(self, image, network):
         channel = 16
         if network == "Resnet-image":
             conv = self.conv2d(image, 3, channel, 7, 1)
@@ -84,14 +97,16 @@ class MultiModel(object):
             res = self.residual(res, [channel*2, channel, channel, channel*4], 2,'stage3' ,with_shortcut=True)
             res = self.residual(res, [channel*4, channel*2, channel*2, channel*8], 2,'stage4' ,with_shortcut=True)
             res = self.residual(res, [channel*8, channel*4, channel*4, channel*16], 2, with_shortcut=True)
-            pool = fluid.layers.pool2d(res, pool_size=[1, 6, 6, 1], pool_type='avg', pool_padding='VALID', pool_stride=[1, 1, 1, 1],name='stage5')
-            flatten = fluid.layers.flatten('fc',pool,axis=3)
+            pool = fluid.layers.pool2d(res, pool_size=[1, 6, 6, 1], pool_type='avg', pool_padding=[1,1], pool_stride=[1, 1, 1, 1],name='stage5')
+            flatten = fluid.layers.flatten('fc',pool, axis=3)
         return flatten
 
-        """
-            访问数据网络
-        """
-    def visit_network(self, image,network):
+    """
+        访问数据网络
+        @image image 图片
+        @network Resnet-visit
+    """
+    def visit_network(self, image, network):
         channel = 32
         if network == "Resnet-visit":
             conv = self.conv2d(image, 7, channel, 7, 1)
@@ -101,13 +116,16 @@ class MultiModel(object):
             res = self.residual(res, [channel*2, channel, channel, channel*4], 2,'stage3' ,with_shortcut=True)
             res = self.residual(res, [channel*4, channel*2, channel*2, channel*8], 2,'stage4' ,with_shortcut=True)
             res = self.residual(res, [channel*8, channel*4, channel*4, channel*16], 2, with_shortcut=True)
-            pool = fluid.layers.pool2d(res, pool_size=[1, 1, 4, 1], pool_type='avg', pool_padding='VALID', pool_stride=[1, 1, 1, 1], name='stage5')
-            flatten = fluid.layers.flatten('fc',pool,axis=3)
+            pool = fluid.layers.pool2d(res, pool_size=[1, 1, 4, 1], pool_type='avg', pool_padding=[1], pool_stride=[1, 1, 1, 1], name='stage5')
+            flatten = fluid.layers.flatten('fc', pool, axis=3)
         return flatten
-    
+
+    """
+        获取损失值
+    """
     def get_loss(self, output_concat, onhot):
         if self.stage == "loss":
-            losses = fluid.layers.sigmoid_cross_entropy_with_logits(x=output_concat,label=onhot)
+            losses = fluid.layers.sigmoid_cross_entropy_with_logits(x=output_concat, label=onhot)
             loss = fluid.layers.reduce_mean(losses)
         return loss
 
