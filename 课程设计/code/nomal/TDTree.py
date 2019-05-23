@@ -6,7 +6,9 @@
 from sklearn.tree import DecisionTreeClassifier
 import ReadData
 from sklearn.feature_extraction.text import CountVectorizer  # 从sklearn.feature_extraction.text里导入文本特征向量化模块
-
+# 画图
+import matplotlib as mpl
+import matplotlib.pyplot as plt
 
 writpath = "E:\\PythonProject\\大数据处理与实践\\课程设计\\res\\res.txt"
 
@@ -16,16 +18,16 @@ vec = CountVectorizer()
 X_train1 = vec.fit_transform(x_train)
 X_test = vec.transform(x_valid)
 
-list1 = []
+list1 = dict()
 range1 = []
 # 训练模型，限制树的最大深度4
 f = open(writpath,"w")
-for i in range(0, 350):
+for i in range(0, 400):
     clf = DecisionTreeClassifier(max_depth=(i+1))
     #拟合模型
     clf.fit(X_train1, y_train)
     Z = clf.predict(X_test)
-    list1.append(sum(Z == y_valid) / len(y_valid))
+    list1[i] = (sum(Z == y_valid) / len(y_valid))
     range1.append(i+1)
     f.write(str("step "+ str(i+1) + " " + str(sum(Z == y_valid) / len(y_valid))) + "\n")
     print("step "+ str(i+1) + " " + str(sum(Z == y_valid) / len(y_valid)))
@@ -33,3 +35,8 @@ print()
 res = str("the max value:" + str(max(list1)))
 f.write(res)
 print(res)
+plt.plot(list1.items(), list1.values(), color='blue', label='ID3 training accuracy')
+plt.xlabel(' times')
+plt.ylabel('ID3 accurary')
+plt.show()
+

@@ -5,7 +5,9 @@ from sklearn.naive_bayes import GaussianNB     # 从sklean.naive_bayes里导入�
 from sklearn.naive_bayes import BernoulliNB 
 from sklearn.metrics import accuracy_score
 import ReadData
-
+# 画图
+import matplotlib as mpl
+import matplotlib.pyplot as plt
 x_train,y_train,x_valid,y_valid = ReadData.readFile()
 
 #文本特征向量化
@@ -20,5 +22,7 @@ mnb = BernoulliNB()  #  0.409
 mnb.fit(X_train1.toarray(),y_train)    # 利用训练数据对模型参数进行估计
 y_predict = mnb.predict(X_test.toarray())     # 对参数进行预测
 
-
-print(accuracy_score(y_predict, y_valid))
+plt.plot(len(list(y_predict)), list(y_predict), color='blue', label='KNN training accuracy')
+plt.xlabel('KNN accuracy')
+plt.ylabel('n_neighbors')
+plt.show()
