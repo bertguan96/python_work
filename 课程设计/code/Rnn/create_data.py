@@ -72,10 +72,10 @@ def read_file_word_2_vec(docList, fileName, data_path):
     word_dict,participle_arr = participle_to_label(docList)
     f = open("E:\\PythonProject\\大数据处理与实践\\课程设计\\code\\cnn\\datasets\\dict_txt1.txt","w")
     f.write(str(word_dict))
-    tf_method(word_dict,participle_arr,fileName)
+    tf_method(word_dict,participle_arr,fileName,data_path)
         
 
-def tf_method(word_dict, participle_arr,fileName):
+def tf_method(word_dict, participle_arr,fileName,data_path):
     participle_arr = tf(word_dict,participle_arr)
     # 计算词向量
     files = open(data_path+fileName, "w",encoding="utf-8")
