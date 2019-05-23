@@ -20,9 +20,10 @@ X_test = vec.transform(x_valid)
 
 list1 = dict()
 range1 = []
-# 训练模型，限制树的最大深度4
+# 训练模型，限制树的最大深度i
 f = open(writpath,"w")
-for i in range(0, 400):
+# step 302 max value 0.615
+for i in range(0, 450):
     clf = DecisionTreeClassifier(max_depth=(i+1))
     #拟合模型
     clf.fit(X_train1, y_train)
@@ -30,9 +31,12 @@ for i in range(0, 400):
     list1[i] = (sum(Z == y_valid) / len(y_valid))
     range1.append(i+1)
     f.write(str("step "+ str(i+1) + " " + str(sum(Z == y_valid) / len(y_valid))) + "\n")
-    print("step "+ str(i+1) + " " + str(sum(Z == y_valid) / len(y_valid)))
+    print("step "+ str(i+1) + " the accurary is " + str(sum(Z == y_valid) / len(y_valid)))
+    res = str("now the max value:" + str(max(list1.values())))
+    print(res)
+
 print()
-res = str("the max value:" + str(max(list1)))
+res = str("the max value:" + str(max(list1.values())))
 f.write(res)
 print(res)
 plt.plot(list1.items(), list1.values(), color='blue', label='ID3 training accuracy')
