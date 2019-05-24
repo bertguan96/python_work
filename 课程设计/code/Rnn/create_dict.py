@@ -16,11 +16,7 @@ x_train,y_train,x_valid,y_valid = pickle.load(open(data_path,'rb'))
 
 
 """ 生成数据字典 """
-def init_dict():
-    # 合并测试集合和训练集合的参数
-    data_list = list(x_train)
-    for validStr in x_valid:
-        data_list.append(validStr)
+def init_dict(data_list):
     # 调用字典转换方法
     word_dict,participle_arr = participle_to_label(data_list) 
     f = open(root + "dict_txt_all.txt","w")
@@ -35,8 +31,15 @@ def create_list(docList, fileName, dicts):
 def create_valid_text():
     f = open(root + "valid.txt","w")
     for text in x_valid:
-        f.write(str(text))
+        f.write(str(text) + "\n")
     print("创建验证集合成")
+
+"""创建测试集合代码"""
+def create_test_test(x_text):
+    f = open(root + "test.txt","w")
+    for text in x_text:
+        f.write(str(text) + "\n")
+    print("创建测试集合成功！")
 
 # 获取字典的长度
 def get_dict_len(dict_path):
@@ -46,8 +49,13 @@ def get_dict_len(dict_path):
     return len(line.keys())
 
 if __name__ == "__main__":
+    data_list = list(x_train)
+    # 将验证集合代码加入list里面
+    for validStr in x_valid:
+        data_list.append(validStr)
+    # 将测试集合的代码加入List里面
     # 生成数据字典
-    # init_dict()
+    init_dict()
     f = open(root + "dict_txt_all.txt","r")
     dicts = f.read()
     dictinfo = eval(dicts)
@@ -84,3 +92,5 @@ if __name__ == "__main__":
         j+=1
 
     create_valid_text()
+    # 需要验证代码时候启用
+    # create_test_test(text_list)
