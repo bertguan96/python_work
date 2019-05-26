@@ -49,13 +49,16 @@ def get_dict_len(dict_path):
     return len(line.keys())
 
 if __name__ == "__main__":
-    data_list = list(x_train)
+    # data_list = list(x_train)
     # 将验证集合代码加入list里面
-    for validStr in x_valid:
-        data_list.append(validStr)
+    # for validStr in x_valid:
+    #     data_list.append(validStr)
     # 将测试集合的代码加入List里面
+    """
+        这里写验证集合的代码
+    """
     # 生成数据字典
-    init_dict()
+    # init_dict(data_list)
     f = open(root + "dict_txt_all.txt","r")
     dicts = f.read()
     dictinfo = eval(dicts)
@@ -78,18 +81,18 @@ if __name__ == "__main__":
     #     files1.write(str2)  
     #     print("step i is :%s" % i)
     #     i+=1
-    files2 = open(root+"valid_list_end.txt", "w",encoding="utf-8")
-    # 生成测试集合
-    create_list(list(x_valid),"valid_list.txt",dictinfo) 
+    # files2 = open(root+"valid_list_end.txt", "w",encoding="utf-8")
+    # # 生成测试集合
+    # create_list(list(x_valid),"valid_list.txt",dictinfo) 
 
-    j = 0
-    for files in open(valid_dict_path):
-        label = str(y_valid[j])
-        strClass = ",".join(files.strip("\n").split())
-        str2 = strClass + "\t" + str(label) + "\n"
-        files2.write(str2)  
-        print("step j is :%s" % j)
-        j+=1
+    # j = 0
+    # for files in open(valid_dict_path):
+    #     label = str(y_valid[j])
+    #     strClass = ",".join(files.strip("\n").split())
+    #     str2 = strClass + "\t" + str(label) + "\n"
+    #     files2.write(str2)  
+    #     print("step j is :%s" % j)
+    #     j+=1
 
     create_valid_text()
     # 需要验证代码时候启用
