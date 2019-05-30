@@ -1,8 +1,7 @@
 import numpy as np
-
-
-
 import paddle.fluid as fluid
+from valid_model_acc import get_acc
+import os
 
 # 创建执行器
 # place = fluid.CUDAPlace(0)
@@ -13,12 +12,15 @@ exe.run(fluid.default_startup_program())
 save_path = 'infer_model/'
 
 save_result_path = 'E:\\PythonProject\\大数据处理与实践\\课程设计\\code\\Rnn\\datasets\\'
+
+root_path = "E:\\PythonProject\\大数据处理与实践\\课程设计\\code\\Rnn\\predatasets\\"
+
 # 从模型中获取预测程序、输入数据名称列表、分类器
 [infer_program, feeded_var_names, target_var] = fluid.io.load_inference_model(dirname=save_path, executor=exe)
 # 获取数据
 def get_data(sentence):
     # 读取数据字典
-    with open(save_result_path + 'dict_txt_all.txt', 'r', encoding='utf-8') as f_data:
+    with open(root_path + 'dict_all.txt', 'r', encoding='utf-8') as f_data:
         dict_txt = eval(f_data.readlines()[0])
     dict_txt = dict(dict_txt)
     # 把字符串数据转换成列表数据
@@ -30,7 +32,7 @@ def get_data(sentence):
         if not s in keys:
             s = '<unk>'
         data.append(int(dict_txt[s]))
-    return data
+    return np.array(data, dtype=np.int64)
 data = []
 for strs in open(save_result_path + 'valid.txt'):
     data1 = get_data(strs)
@@ -46,11 +48,13 @@ result = exe.run(program=infer_program,
 
 # 分类名称
 
-names = ['0','1', '2', '3', '4', '5',
+names = ['tree','night', 'clouds', 'flower', 'food', 'dog',
 
-         '6', '7', '8', '9']
+         'car', 'bird', 'baby', 'lake','tree1','night1', 'clouds1', 'flower1', 'food1', 'dog1',
 
-res = open(save_result_path + "result_bli_0526_16.txt","w")
+         'car1', 'bird1', 'baby1', 'lake1','baby2', 'lake2']
+
+res = open(save_result_path + "result1.txt","w")
 
 # 获取结果概率最大的label
 for i in range(len(data)):
@@ -58,3 +62,7 @@ for i in range(len(data)):
     res.write(str(lab) + "\n")
     res.flush()
     print('预测结果标签为：%d， 名称为：%s， 概率为：%f' % (lab, names[lab], result[0][i][lab]))
+
+# 完成预测之后自动关机
+# os.system("shutdown -s -t 1")
+get_acc()
