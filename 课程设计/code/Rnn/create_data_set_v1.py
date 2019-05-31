@@ -10,7 +10,7 @@ from create_data_v1 import tf_method
 import read_config
 import json
 import time
-
+import random
 
 # 设置读取类型
 TRIAN_TYPE = "train"
@@ -22,6 +22,14 @@ test_path = read_config.ReadConfig(TEST_TYPE).read_file()
 root = "E:\\PythonProject\\大数据处理与实践\\课程设计\\code\\Rnn\\datasets\\"
 # 读取参数
 x_train,y_train,x_valid,y_valid = pickle.load(open(train_path,'rb')) 
+
+x_train = []
+for data in open(root + "trian.txt"):
+    x_train.append(data)
+x_valid = []
+for data in open(root + "valid.txt"):
+    x_valid.append(data)
+
 x_test = ""
 y_test = ""
 if test_path == "":
@@ -76,8 +84,8 @@ if __name__ == "__main__":
     # 将测试集合的代码加入List里面
 
     if run_type == '1':
-        pass
-        # init_dict(data_list)
+        # pass
+        init_dict(data_list)
     elif run_type == '2':
         # 将x_test写入文本中
         for testStr in x_test:
@@ -89,7 +97,7 @@ if __name__ == "__main__":
 
     # 生成数据字典
     
-    f = open(root + "dict_all.txt","r",encoding="utf-8")
+    f = open(root + "dict_txt_all.txt","r",encoding="utf-8")
     dicts = f.read()
     dictinfo = eval(dicts)
 
@@ -104,15 +112,20 @@ if __name__ == "__main__":
    
 
     i = 0
+    counts = 0
+    train_list = []
     for files in open(train_dict_path):
-        if i == 5425:
-            break
         label = str(y_train[i])
         strClass = ",".join(files.strip("\n").split())
-        str2 = strClass + "\t" + str(label) + "\n"
-        files1.write(str2)  
+        str2 = strClass + "\t" + str(int(label)) + "\n"
+        train_list.append(str2)
         print("step i is :%s" % i)
+        counts+=1
         i+=1
+    # 打乱读入顺序
+    random.shuffle(train_list)
+    for data in train_list:
+        files1.write(data)  
     files2 = open(root+"valid_list_end.txt", "w",encoding="utf-8")
 
     print("trian_file 生成完成")
@@ -126,14 +139,17 @@ if __name__ == "__main__":
         create_list(list(x_valid),"valid_list.txt",dictinfo) 
 
         j = 0
+        counts = 0
+        valid_list = []
         for files in open(valid_dict_path):
-            if j == 1000:
-                break
             label = str(y_valid[j])
             strClass = ",".join(files.strip("\n").split())
-            str2 = strClass + "\t" + str(label) + "\n"
-            files2.write(str2)  
+            str2 = strClass + "\t" + str(int(label)) + "\n"
+            valid_list.append(str2)
             print("step j is :%s" % j)
+            counts+=1
             j+=1
-
-        create_valid_text()
+        # 打乱读入顺序
+        random.shuffle(valid_list)
+        for data in valid_list:
+            files2.write(data)  

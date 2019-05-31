@@ -48,11 +48,11 @@ result = exe.run(program=infer_program,
 
 # 分类名称
 
-names = ['tree','night', 'clouds', 'flower', 'food', 'dog',
+names = ['0','1', '2', '3', '4', '5',
 
-         'car', 'bird', 'baby', 'lake','tree1','night1', 'clouds1', 'flower1', 'food1', 'dog1',
+         '6', '7', '8', '9','10','11', '12', '13', '14', '15',
 
-         'car1', 'bird1', 'baby1', 'lake1','baby2', 'lake2']
+         '16', '17', '18', '19']
 
 res = open(save_result_path + "result1.txt","w")
 

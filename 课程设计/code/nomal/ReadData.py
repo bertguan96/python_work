@@ -13,3 +13,9 @@ x_train,y_train,x_valid,y_valid = pickle.load(open(data_path,'rb'))
 def readFile():
    x_train,y_train,x_valid,y_valid = pickle.load(open(data_path,'rb')) 
    return x_train,y_train,x_valid,y_valid
+
+def read_file(path):
+   datas = []
+   for data in open(path,"r",encoding="utf-8"):
+      datas.append(data)
+   return datas

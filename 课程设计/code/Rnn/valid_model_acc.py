@@ -37,4 +37,4 @@ def get_acc():
 #         y = str(y).strip('\n')   # 去除末尾换行符
 #         y_predict.append(int(y))
 #     print(accuracy_score(y_predict, y_valid))
-get_acc()
+# get_acc()/

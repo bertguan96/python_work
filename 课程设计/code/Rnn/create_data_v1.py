@@ -1,14 +1,14 @@
 import os
 import pickle
 import numpy as np
-from nltk.stem import SnowballStemmer 
-
-
+from nltk.corpus import stopwords 
+from nltk.stem.porter import PorterStemmer  
+import nltk
 
 data_path = "E:\\PythonProject\\大数据处理与实践\\课程设计\\data\\data_student.pkl"
 x_train,y_train,x_valid,y_valid = pickle.load(open(data_path,'rb')) 
 
-
+stop_words = set(stopwords.words('english'))
 root = "E:\\PythonProject\\大数据处理与实践\\课程设计\\code\\Rnn\\"
 
 # 分词过后的数组
@@ -26,10 +26,12 @@ def participle_to_label(text):
         doc_arr = doc.split()
         origin_arr = []
         for doc_word in doc_arr:
-            # 利用porter进行词干还原
-            snowball_stemmer = SnowballStemmer("english")  
-            origin_word = snowball_stemmer.stem(doc_word)
-            origin_arr.append(origin_word)
+            # 去停止词语
+            if doc_word not in stop_words:
+                # 利用porter进行词干还原
+                origin_word = nltk.stem.WordNetLemmatizer().lemmatize(doc_word)
+                # origin_word = porter_stemmer.stem(doc_word)
+                origin_arr.append(origin_word)
         participle_arr.append(doc_arr)
     # 将结果转换为set
     for i in range(len(participle_arr)):

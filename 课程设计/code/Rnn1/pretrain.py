@@ -14,7 +14,7 @@ import text_reader
 
 BATCH_SIZE = 256
 
-root_path = "E:\\PythonProject\\大数据处理与实践\\课程设计\\code\\Rnn\\predatasets\\"
+root_path = "E:\\PythonProject\\大数据处理与实践\\课程设计\\code\\Rnn1\\predatasets\\"
 
 
 # 定义输入数据， lod_level不为0指定输入数据为序列数据

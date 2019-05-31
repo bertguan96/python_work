@@ -8,7 +8,10 @@ import ReadData
 # 画图
 import matplotlib as mpl
 import matplotlib.pyplot as plt
-x_train,y_train,x_valid,y_valid = ReadData.readFile()
+x_train = ReadData.read_file("trian_label.txt")
+y_train = ReadData.read_file("trian.txt")
+x_valid = ReadData.read_file("valid_label.txt")
+y_valid = ReadData.read_file("valid.txt")
 
 #文本特征向量化
 vec = CountVectorizer()
@@ -16,12 +19,10 @@ X_train1 = vec.fit_transform(x_train)
 X_test = vec.transform(x_valid)
 
 #3.使用朴素贝叶斯进行训练
-# mnb = MultinomialNB() 0.6
-mnb = BernoulliNB()  #  0.409
-# mnb = GaussianNB()   # 使用默认配置初始化朴素贝叶斯 0.51
-mnb.fit(X_train1.toarray(),y_train)    # 利用训练数据对模型参数进行估计
+mnb = MultinomialNB()
+mnb.fit(X_train1,y_train)    # 利用训练数据对模型参数进行估计
 y_predict = mnb.predict(X_test.toarray())     # 对参数进行预测
-
+str(sum(y_predict == y_valid) / len(y_valid))
 plt.plot(len(list(y_predict)), list(y_predict), color='blue', label='KNN training accuracy')
 plt.xlabel('KNN accuracy')
 plt.ylabel('n_neighbors')

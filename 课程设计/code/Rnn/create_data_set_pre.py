@@ -9,7 +9,7 @@ from create_data_v1 import tf_method
 import json
 import utils
 import pickle
-
+import random
 
 # 设置读取类型
 TRIAN_TYPE = "train"
@@ -24,6 +24,14 @@ predataset = "E:\\PythonProject\\大数据处理与实践\\课程设计\\code\\R
 data_path = "E:\\PythonProject\\大数据处理与实践\\课程设计\\data\\data_student.pkl"
 x_train,y_train,x_valid,y_valid = pickle.load(open(data_path,'rb')) 
 
+# 文件存储路径
+root1 = "E:\\PythonProject\\大数据处理与实践\\课程设计\\code\\Rnn\\datasets\\"
+x_train = []
+for data in open(root1 + "trian.txt"):
+    x_train.append(data)
+x_valid = []
+for data in open(root1 + "valid.txt"):
+    x_valid.append(data)
 
 """ 生成数据字典 """
 def init_dict(data_list):
@@ -79,6 +87,7 @@ if __name__ == "__main__":
 
     x_valid2 = list(x_valid)
     y_valid2 = list(y_valid)
+
     """"老师给的原始数据"""
     for trian in x_train1:
         x_train2.append(trian)
@@ -91,6 +100,11 @@ if __name__ == "__main__":
 
     for label1 in y_label1:
         y_valid2.append(label1)
+    # utils.save_file(x_train2,"trian.txt")
+    # utils.save_file(np.asarray(y_train2,dtype="str"),"trian_label.txt")
+    # utils.save_file(x_valid2,"valid.txt")
+    # utils.save_file(np.asarray(y_valid2,dtype="str"),"valid_label.txt")
+    
 
     # docList1 = []
     # for data in x_train2:
@@ -114,18 +128,23 @@ if __name__ == "__main__":
 
     files1 = open(predataset+"train_list_end.txt", "w",encoding="utf-8")
    
-    print(y_train2[5426])
+    
 
     i = 0
     counts = 0
+    train_list = []
     for files in open(train_dict_path):
         label = str(y_train2[i])
         strClass = ",".join(files.strip("\n").split())
         str2 = strClass + "\t" + str(int(label)) + "\n"
-        files1.write(str2)  
+        train_list.append(str2)
         print("step i is :%s" % i)
         counts+=1
         i+=1
+    # 打乱读入顺序
+    random.shuffle(train_list)
+    for data in train_list:
+        files1.write(data)  
     files2 = open(predataset+"valid_list_end.txt", "w",encoding="utf-8")
 
     print("trian_file 生成完成")
@@ -140,13 +159,18 @@ if __name__ == "__main__":
 
         j = 0
         counts = 0
+        valid_list = []
         for files in open(valid_dict_path):
             label = str(y_valid2[j])
             strClass = ",".join(files.strip("\n").split())
             str2 = strClass + "\t" + str(int(label)) + "\n"
-            files2.write(str2)  
+            valid_list.append(str2)
             print("step j is :%s" % j)
             counts+=1
             j+=1
+        # 打乱读入顺序
+        random.shuffle(valid_list)
+        for data in valid_list:
+            files2.write(data)  
     
 

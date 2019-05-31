@@ -26,8 +26,8 @@ label = fluid.layers.data(name='label', shape=[1], dtype='int64')
 dict_dim = create_data.get_dict_len(root_path + 'dict_all.txt')
 # 获取长短期记忆网络
 
-# model = model.cnn_net(words,label,dict_dim,20)
-model = net.cnn_net(words,label,dict_dim)
+model = model.cnn_net(words,label,dict_dim,20)
+# model = net.lstm_net(words,label,dict_dim)
 
 # 获取损失函数和准确率
 cost = fluid.layers.cross_entropy(input=model, label=label)

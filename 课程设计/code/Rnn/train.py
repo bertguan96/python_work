@@ -8,7 +8,7 @@ import paddle.fluid as fluid
 import os
 import shutil
 import paddle
-import create_data
+import create_data_v1 as create_data
 import text_reader
 
 
@@ -22,10 +22,10 @@ words = fluid.layers.data(name='words', shape=[1], dtype='int64', lod_level=1)
 label = fluid.layers.data(name='label', shape=[1], dtype='int64')
 
 # 获取数据字典长度
-dict_dim = create_data.get_dict_len(root_path + 'dict_all.txt')
+dict_dim = create_data.get_dict_len(root_path + 'dict_txt_all.txt')
 # 获取长短期记忆网络
 
-model = model.cnn_net(words,label,dict_dim,10)
+model = model.textcnn_net(words,label,dict_dim)
 
 
 # 获取损失函数和准确率
@@ -51,19 +51,13 @@ exe.run(fluid.default_startup_program())
 train_reader = paddle.batch(reader=text_reader.train_reader(root_path +'train_list_end.txt'), batch_size=BATCH_SIZE)
 test_reader = paddle.batch(reader=text_reader.test_reader(root_path + 'valid_list_end.txt'), batch_size=BATCH_SIZE)
 
-# 经过处理的预训练预训练模型
-pretrained_model_path = 'pretrain_model/'
-
-# 加载经过处理的模型
-fluid.io.load_params(executor=exe, dirname=pretrained_model_path)
-
 
 # 定义输入数据的维度
 feeder = fluid.DataFeeder(place=place, feed_list=[words, label])
 
 # 开始训练
 # 修改模型迭代次数
-for pass_id in range(20):
+for pass_id in range(10):
     # 进行训练
     for batch_id, data in enumerate(train_reader()):
         train_cost, train_acc = exe.run(program=fluid.default_main_program(),
