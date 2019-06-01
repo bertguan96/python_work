@@ -20,7 +20,7 @@ root_path = "E:\\PythonProject\\大数据处理与实践\\课程设计\\code\\Rn
 # 获取数据
 def get_data(sentence):
     # 读取数据字典
-    with open(root_path + 'dict_all.txt', 'r', encoding='utf-8') as f_data:
+    with open(save_result_path + 'dict_txt_all.txt', 'r', encoding='utf-8') as f_data:
         dict_txt = eval(f_data.readlines()[0])
     dict_txt = dict(dict_txt)
     # 把字符串数据转换成列表数据

@@ -25,7 +25,7 @@ label = fluid.layers.data(name='label', shape=[1], dtype='int64')
 dict_dim = create_data.get_dict_len(root_path + 'dict_txt_all.txt')
 # 获取长短期记忆网络
 
-model = model.textcnn_net(words,label,dict_dim)
+model = model.gru_net(words,label,dict_dim)
 
 
 # 获取损失函数和准确率
@@ -37,9 +37,13 @@ acc = fluid.layers.accuracy(input=model, label=label)
 test_program = fluid.default_main_program().clone(for_test=True)
 
 # 定义优化方法 
-optimizer = fluid.optimizer.AdamOptimizer(learning_rate=0.002)
-opt = optimizer.minimize(avg_cost)
+optimizer = fluid.optimizer.AdamOptimizer(learning_rate=0.001)
 
+
+# optimizer = fluid.optimizer.AdamOptimizer(learning_rate=0.001,
+#                          regularization=fluid.regularizer.L2DecayRegularizer(
+#                          regularization_coeff=0.01))
+opt = optimizer.minimize(avg_cost)
 # 创建一个执行器，CPU训练速度比较慢
 place = fluid.CPUPlace()
 exe = fluid.Executor(place)
@@ -55,9 +59,12 @@ test_reader = paddle.batch(reader=text_reader.test_reader(root_path + 'valid_lis
 # 定义输入数据的维度
 feeder = fluid.DataFeeder(place=place, feed_list=[words, label])
 
+
+
+
 # 开始训练
 # 修改模型迭代次数
-for pass_id in range(10):
+for pass_id in range(20):
     # 进行训练
     for batch_id, data in enumerate(train_reader()):
         train_cost, train_acc = exe.run(program=fluid.default_main_program(),

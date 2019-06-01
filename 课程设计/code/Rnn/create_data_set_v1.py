@@ -116,10 +116,67 @@ if __name__ == "__main__":
     train_list = []
     for files in open(train_dict_path):
         label = str(y_train[i])
-        strClass = ",".join(files.strip("\n").split())
-        str2 = strClass + "\t" + str(int(label)) + "\n"
-        train_list.append(str2)
-        print("step i is :%s" % i)
+        if int(label) == 0:
+            for x in range(9):
+                list1 = files.strip("\n").split()
+                random.shuffle(list1)
+                strClass = ",".join(list1)
+                str2 = strClass + "\t" + str(int(label)) + "\n"
+                train_list.append(str2)
+                print("step i is :%s" % i)
+                x+=1
+        elif int(label) == 1:
+            for x in range(4):
+                list1 = files.strip("\n").split()
+                random.shuffle(list1)
+                strClass = ",".join(list1)
+                str2 = strClass + "\t" + str(int(label)) + "\n"
+                train_list.append(str2)
+                print("step i is :%s" % i)
+                x+=1
+        elif int(label) == 2:
+            for x in range(4):
+                list1 = files.strip("\n").split()
+                random.shuffle(list1)
+                strClass = ",".join(list1)
+                str2 = strClass + "\t" + str(int(label)) + "\n"
+                train_list.append(str2)
+                print("step i is :%s" % i)
+                x+=1
+        elif int(label) == 4:
+            for x in range(4):
+                list1 = files.strip("\n").split()
+                random.shuffle(list1)
+                strClass = ",".join(list1)
+                str2 = strClass + "\t" + str(int(label)) + "\n"
+                train_list.append(str2)
+                print("step i is :%s" % i)
+                x+=1
+        elif int(label) == 6:
+            for x in range(2):
+                list1 = files.strip("\n").split()
+                random.shuffle(list1)
+                strClass = ",".join(list1)
+                str2 = strClass + "\t" + str(int(label)) + "\n"
+                train_list.append(str2)
+                print("step i is :%s" % i)
+                x+=1
+        elif int(label) == 7:
+            for x in range(12):
+                list1 = files.strip("\n").split()
+                random.shuffle(list1)
+                strClass = ",".join(list1)
+                str2 = strClass + "\t" + str(int(label)) + "\n"
+                train_list.append(str2)
+                print("step i is :%s" % i)
+                x+=1
+        else:
+            list1 = files.strip("\n").split()
+            random.shuffle(list1)
+            strClass = ",".join(list1)
+            str2 = strClass + "\t" + str(int(label)) + "\n"
+            train_list.append(str2)
+            print("step i is :%s" % i)
         counts+=1
         i+=1
     # 打乱读入顺序
